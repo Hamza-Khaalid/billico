@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Billico - Instant Invoice & Receipt Generator</title>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="fevicon/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="fevicon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="fevicon/"favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+    <meta name="description" content="Generate professional invoices and realistic receipts instantly - no signup required!">
+    <meta name="keywords" content="invoice, receipt, generator, free, online, business, professional">
+    <meta name="author" content="Billico Team">
+    <meta property="og:title" content="Billico - Instant Invoice & Receipt Generator">
+    <meta property="og:description" content="Generate professional invoices and realistic receipts instantly - no signup required!">
+    <meta property="og:image" content="/assets/logo.png">
+    <meta property="og:url" content="https://billico.com">
+    <meta property="og:type" content="website">
+
+</head>
+<body>
+    <div class="container">
+       
+        
+        <header>
+            <div class="logo">
+                <img src="/assets/logo.png" alt="Billico Logo" width="150" > </div>
+            <!-- <h1>Billico</h1> -->
+            <p class="subtitle">Generate professional invoices and realistic receipts instantly - no signup required!</p>
+        </header>
+
+        <!-- Top Ad Space -->
+        <div class="ad-container">
+            <p>Advertisement Space (728x90)</p>
+        </div>
+
+        <div class="app-grid">
+            <div class="form-section">
+                <h2 class="section-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M17,18C15.89,18 15,18.89 15,20A2,2 0 0,0 17,22A2,2 0 0,0 19,20C19,18.89 18.1,18 17,18M1,2V4H3L6.6,11.59L5.24,14.04C5.09,14.32 5,14.65 5,15A2,2 0 0,0 7,17H19V15H7.42A0.25,0.25 0 0,1 7.17,14.75C7.17,14.7 7.18,14.66 7.2,14.63L8.1,13H15.55C16.3,13 16.96,12.58 17.3,11.97L20.88,5.5C20.95,5.34 21,5.17 21,5A1,1 0 0,0 20,4H5.21L4.27,2M7,18C5.89,18 5,18.89 5,20A2,2 0 0,0 7,22A2,2 0 0,0 9,20C9,18.89 8.1,18 7,18Z"/>
+                    </svg>
+                    Create Document
+                </h2>
+                
+                <div class="control-group">
+                    <div class="toggle-container">
+                        <div class="toggle-option active" id="invoiceToggle" data-mode="invoice">Invoice</div>
+                        <div class="toggle-option" id="receiptToggle" data-mode="receipt">Receipt</div>
+                    </div>
+                    
+                    <div class="currency-selector">
+                        <select id="currencySelector" aria-label="Select currency" style="-webkit-appearance:none;">
+                            <option value="USD">USD ($)</option>
+                            <option value="EUR">EUR (€)</option>
+                            <option value="GBP">GBP (£)</option>
+                            <option value="JPY">JPY (¥)</option>
+                            <option value="AUD">AUD ($)</option>
+                            <option value="CAD">CAD ($)</option>
+                            <option value="INR">INR (₹)</option>
+                            <option value="PKR">PKR (₨)</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="businessName">Store / Business Name</label>
+                        <input type="text" id="businessName" placeholder="Your Business Name" value="Tech Solutions Inc.">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="documentDate">Date</label>
+                        <input type="date" id="documentDate" aria-label="Document date">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="documentNumber">Document Number</label>
+                        <input type="text" id="documentNumber" placeholder="e.g. INV-001" value="INV-001" aria-label="Document number">
+                    </div>
+                </div>
+                
+                <div id="customerFields">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="customerName">Customer Name</label>
+                            <input type="text" id="customerName" placeholder="Customer Name" value="John Smith">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="customerEmail">Customer Email</label>
+                            <input type="email" id="customerEmail" placeholder="customer@example.com" value="john@example.com">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="dueDate">Due Date</label>
+                            <input type="date" id="dueDate" aria-label="Due date">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Status</label>
+                            <div class="control-group">
+                                <div class="toggle-container">
+                                    <div class="toggle-option active" id="unpaidToggle">Unpaid</div>
+                                    <div class="toggle-option" id="paidToggle">Paid</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="paymentMethodField" class="hidden">
+                    <div class="form-group">
+                        <label for="paymentMethod">Payment Method</label>
+                        <select id="paymentMethod" aria-label="Payment method">
+                            <option value="Cash">Cash</option>
+                            <option value="Credit Card">Credit Card</option>
+                            <option value="Debit Card">Debit Card</option>
+                            <option value="Bank Transfer">Bank Transfer</option>
+                            <option value="Digital Wallet">Digital Wallet</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="items-header">
+                    <div>Item Description</div>
+                    <div>Quantity</div>
+                    <div>Unit Price</div>
+                </div>
+                
+                <div id="itemsContainer">
+                    <div class="item-row">
+                        <input type="text" placeholder="Item description" class="item-desc" value="Website Design" aria-label="Item description">
+                        <input type="number" placeholder="Qty" class="item-qty" value="1" min="1" aria-label="Item quantity">
+                        <input type="number" placeholder="Price" class="item-price" value="1200" min="0" step="0.01" aria-label="Item price">
+                        <button class="remove-item" aria-label="Remove item">×</button>
+                    </div>
+                    <div class="item-row">
+                        <input type="text" placeholder="Item description" class="item-desc" value="Hosting (1 year)" aria-label="Item description">
+                        <input type="number" placeholder="Qty" class="item-qty" value="1" min="1" aria-label="Item quantity">
+                        <input type="number" placeholder="Price" class="item-price" value="300" min="0" step="0.01" aria-label="Item price">
+                        <button class="remove-item" aria-label="Remove item">×</button>
+                    </div>
+                </div>
+                
+                <button id="addItemBtn" class="add-item-btn" aria-label="Add new item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                    </svg>
+                    Add Item
+                </button>
+                
+                <div class="tax-discount-group">
+                    <div class="form-group">
+                        <label for="taxRate">Tax Rate (%)</label>
+                        <input type="number" id="taxRate" placeholder="Tax rate" value="10" min="0" step="0.1" aria-label="Tax rate">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="discountRate">Discount (%)</label>
+                        <input type="number" id="discountRate" placeholder="Discount" value="5" min="0" step="0.1" aria-label="Discount rate">
+                    </div>
+                </div>
+                
+                <button id="generateBtn" class="generate-btn">Generate Document</button>
+            </div>
+            
+            <div class="preview-section">
+                <h2 class="section-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M19,3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3M19,19H5V5H19V19M17,17H7V7H17V17M15,13H9V11H15V13M15,9H9V7H15V9Z"/>
+                    </svg>
+                    Document Preview
+                </h2>
+                
+                <div id="documentPreview" class="document-preview">
+                    <!-- Preview will be generated here -->
+                </div>
+                
+                <div class="export-options">
+                    <button id="exportPNG" class="export-btn" aria-label="Download as PNG">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                            <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                        </svg>
+                        Download PNG
+                    </button>
+                    <button id="exportPDF" class="export-btn" aria-label="Download as PDF">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                            <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                        </svg>
+                        Download PDF
+                    </button>
+                </div>
+                
+                <!-- <div class="monetization">
+                    <p class="watermark">Made with Billico.com</p>
+                    <p>Remove watermark & unlock HD export for $2</p>
+                    <button class="premium-btn">Upgrade to Premium</button>
+                </div> -->
+            </div>
+            
+            <!-- Ad Sidebar -->
+            <div class="ad-sidebar">
+                <h2 class="section-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M12,8H4A2,2 0 0,0 2,10V14A2,2 0 0,0 4,16H5V20A1,1 0 0,0 6,21H8A1,1 0 0,0 9,20V16H12L17,20V4L12,8M21.5,12C21.5,13.71 20.54,15.26 19,16V8C20.53,8.75 21.5,10.3 21.5,12Z"/>
+                    </svg>
+                    Promotions
+                </h2>
+                <div class="ad-container">
+                    <p>Advertisement (300x250)</p>
+                </div>
+                <div class="ad-container">
+                    <p>Advertisement (300x250)</p>
+                </div>
+                <div class="ad-container">
+                    <p>Advertisement (300x250)</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Bottom Ad Space -->
+        <div class="ad-container">
+            <p>Advertisement Space (728x90)</p>
+        </div>
+        
+        <footer>
+            <p>Billico &copy; 2023 | Generate professional invoices and receipts instantly</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
